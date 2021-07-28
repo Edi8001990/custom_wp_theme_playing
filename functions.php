@@ -227,3 +227,24 @@ function custom_mailer( $phpmailer)
 //  function set_my_mail_content_type() {
 //      return "text/html";
 //  }
+
+
+
+//Shortcodes ---> select cars
+
+function my_shortcode(){
+
+    ob_start(); /// don't echo out meaning display the shortcode in right place
+    get_template_part('includes/latest' , 'cars'); 
+    return ob_get_clean(); /// don't echo out meaning display the shortcode in right place
+}
+
+
+add_shortcode('latest_cars', 'my_shortcode');
+
+
+function my_phone(){
+    return '<a href="tel:05345345 43534 534535">05345345 43534 534535</a>';
+}
+
+add_shortcode( 'phone', 'my_phone' );
