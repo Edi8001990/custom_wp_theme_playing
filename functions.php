@@ -248,3 +248,71 @@ function my_phone(){
 }
 
 add_shortcode( 'phone', 'my_phone' );
+
+
+
+// Search query
+function search_query(){
+
+    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1; // number pages for search result
+
+    $args =[
+        'paged' => $paged,
+        'post_type' => 'cars',
+        'posts_per_page' => 2, // Get 2 search resuls on 1 page
+        'tax_query' => [],
+        'meta_query' => [
+            'relation' => 'AND',
+        ],
+    ];
+
+    if(isset($_GET['keyword'])){
+        if(!empty($_GET['keyword'])){
+            $args['s'] =  sanitize_text_field( $_GET['keyword'] );
+        }
+    }
+
+    if(isset($_GET['brand'])){
+        
+        if (!empty($_GET['brand'])){
+            $args['tax_query'][]= [
+                'taxonomy' => 'brands',
+                'field' => 'slug',
+                'terms' => array( sanitize_text_field($_GET['brand'] ))
+            ];
+        }
+
+    }
+
+
+
+    if(isset($_GET['price_above'])){
+        
+        if (!empty($_GET['price_above'])){
+            $args['meta_query'][] = array(
+                'key' => 'price',
+                'value' => sanitize_text_field( $_GET['price_above'] ),
+                'type' => 'numeric',
+                'compare' => '>='
+            );
+        }
+
+    }
+
+
+
+    if(isset($_GET['price_below'])){
+        
+        if (!empty($_GET['price_below'])){
+            $args['meta_query'][] = array(
+                'key' => 'price',
+                'value' => sanitize_text_field( $_GET['price_below'] ),
+                'type' => 'numeric',
+                'compare' => '<='
+            );
+        }
+
+    }
+
+    return new WP_Query($args);
+}

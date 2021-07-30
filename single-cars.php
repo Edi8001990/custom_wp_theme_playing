@@ -5,7 +5,11 @@
 
 <h1><?php the_title(); ?></h1>
         <?php if(has_post_thumbnail()):?>
+        <div class="gallery">
+        <a href="<?php the_post_thumbnail_url('blog-large'); ?>">
                 <img src="<?php the_post_thumbnail_url('blog-large');?>" alt="<?php the_title();?>" class="img-fluid mb-3 img-thumbnail">
+        </a>
+        </div>
         <?php endif;?>
 
         <div class="row">
@@ -22,6 +26,7 @@
 
                                 <li>Colour: <?php the_field('colour');?></li>
                                 <li>Registration: <?php the_field('registration');?></li>
+                                <li>Price: $<?php the_field('price');?></li>
 
                                 
                         </ul>
