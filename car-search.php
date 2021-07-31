@@ -115,11 +115,11 @@ if($is_search){
                             <h3> <?php the_title();?> </h3>
                             
                         <?php endwhile;?>
-
+                        <div class="pagination">
                         <?php 
 
                             /// Pagination feature ---> copied from WP handbook
-
+                      
                         echo paginate_links( array(
                             'base'         => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
                             'total'        => $query->max_num_pages,
@@ -136,6 +136,7 @@ if($is_search){
                             'add_fragment' => '',
                         ) );
                     ?>
+                     </div>
 
                         <?php wp_reset_postdata(); // Reset query from the form ?> 
                     <?php else: ?>

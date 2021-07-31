@@ -232,9 +232,14 @@ function custom_mailer( $phpmailer)
 
 //Shortcodes ---> select cars
 
-function my_shortcode(){
+function my_shortcode($atts, $content = null, $tag = ''){
+
+    // print_r($atts);
 
     ob_start(); /// don't echo out meaning display the shortcode in right place
+
+    set_query_var('attributes', $atts);
+
     get_template_part('includes/latest' , 'cars'); 
     return ob_get_clean(); /// don't echo out meaning display the shortcode in right place
 }

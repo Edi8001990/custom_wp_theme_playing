@@ -1,15 +1,56 @@
 <?php 
 
+$attributes = get_query_var('attributes'); /// get car attribute for shortcode
+
+
+
 /// Make cars query/select from database...
 
 $args = [
     'post_type' => 'cars',
-    // 'meta_key' => 'colour',
-    // 'meta_value' => 'red',
-    'posts_per_page' => 1,
+    'posts_per_page' => 0,
+    'tax_query' => [],
+    'meta_query' =>  [],
 
 
 ];
+
+if(isset($attributes['price_below'])){ // Check if the car price below arrtibute exits in array
+    $args['meta_query'][] =  array(
+        'key' => 'price',
+        'value' => $attributes['price_below'],
+        'type' => 'numeric',
+        'compare' => '<='
+    );
+}
+
+
+if(isset($attributes['price_above'])){ // Check if the car price below arrtibute exits in array
+    $args['meta_query'][] =  array(
+        'key' => 'price',
+        'value' => $attributes['price_above'],
+        'type' => 'numeric',
+        'compare' => '>='
+    );
+}
+
+ 
+if(isset($attributes['colour'])){ // Check if the car colour arrtibute exits in array
+
+    $args['meta_query'][] =  array(
+        'key' => 'colour',
+        'value' => $attributes['colour'],
+        'compare' => '='
+    );
+}
+
+if(isset($attributes['brand'])){ // Check if the car brand arrtibute exits in array
+    $args['tax_query'][] = [
+        'taxonomy' => 'brands',
+        'field' => 'slug',
+        'terms' => array($attributes['brand']),
+    ];
+}
 
 $query = new WP_Query($args);
 ?>
